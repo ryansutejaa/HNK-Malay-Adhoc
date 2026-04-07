@@ -1,0 +1,29 @@
+SELECT
+    Journey_Name,
+    Send_Date,
+    DATENAME(WEEKDAY, Send_Date) AS Day_Name,
+    CASE 
+        WHEN DATEPART(WEEKDAY, Send_Date) = 1 THEN 7
+        ELSE DATEPART(WEEKDAY, Send_Date) - 1
+    END AS Day_Number,
+    SUM(Sent)  AS Total_Sent,
+    SUM(Opened) AS Total_Opened
+FROM (
+    SELECT
+        Journey_Name,
+        CAST(Send_Date AS DATE) AS Send_Date,
+        Sent,
+        Opened
+    FROM [Journey Builder Email Sends Latest]
+    WHERE
+        CAST(Send_Date AS DATE) >= '2026-01-01'
+        AND CAST(Send_Date AS DATE) <= '2026-04-06'
+) AS sub
+GROUP BY
+    Journey_Name,
+    Send_Date,
+    DATENAME(WEEKDAY, Send_Date),
+    CASE 
+        WHEN DATEPART(WEEKDAY, Send_Date) = 1 THEN 7
+        ELSE DATEPART(WEEKDAY, Send_Date) - 1
+    END
