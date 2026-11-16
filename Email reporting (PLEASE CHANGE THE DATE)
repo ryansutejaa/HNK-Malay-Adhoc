@@ -48,6 +48,6 @@ FROM _Sent                      AS s
         ON j.VersionID = ja.VersionID
     LEFT JOIN ENT._Subscribers      AS sub
         ON sub.SubscriberKey = s.SubscriberKey
-    WHERE
-        s.EventDate >= '20260930 11:00:00' 
-        AND s.EventDate < '20261031 11:00:00'
+      WHERE
+          s.EventDate >= DATEADD(HOUR, -13, DATEADD(MONTH, DATEDIFF(MONTH, 0, DATEADD(HOUR, 13, GETDATE())) - 1, 0))
+          AND s.EventDate < DATEADD(HOUR, -13, DATEADD(MONTH, DATEDIFF(MONTH, 0, DATEADD(HOUR, 13, GETDATE())), 0))
